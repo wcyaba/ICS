@@ -62,6 +62,7 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si[N]", "Execute N instructions. If N is not given, execute 1. "}
 
   /* TODO: Add more commands */
 
@@ -69,18 +70,21 @@ static struct {
 
 #define NR_CMD ARRLEN(cmd_table)
 
-static int cmd_help(char *args) {
+static int cmd_help(char *args) 
+{
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
   int i;
 
-  if (arg == NULL) {
+  if (arg == NULL) 
+  {
     /* no argument given */
     for (i = 0; i < NR_CMD; i ++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
     }
   }
-  else {
+  else 
+  {
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
