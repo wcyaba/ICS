@@ -58,6 +58,8 @@ static int cmd_si(char *args);
 
 static int cmd_help(char *args);
 
+static int cmd_info(char *args);
+
 static struct
 {
   const char *name;
@@ -68,7 +70,7 @@ static struct
     {"c", "Continue the execution of the program", cmd_c},
     {"q", "Exit NEMU", cmd_q},
     {"si", "Execute N instructions. If N is not given, execute 1 ", cmd_si},
-    {"info", "Display register status or watchpoint info "},
+    {"info", "Display register status or watchpoint info ", cmd_info},
 
     /* TODO: Add more commands */
 
@@ -119,7 +121,26 @@ static int cmd_si(char *args)
   cpu_exec(n);
   return 0;
 }
-
+static int cmd_info(char *args)
+{
+  if(args != NULL && (args[0]=='r'||args[0]=='w'))
+  {
+    if(args[0] == 'r')
+    {
+      isa_reg_display();
+    }
+    else
+    {
+      
+    }
+  }
+  else
+  {
+    printf("Invalid arguments\n");
+    printf("Please input 'r' or 'w' to display register status or watchpoint info\n");
+  }
+  return 0;
+}
 void sdb_set_batch_mode() { is_batch_mode = true; }
 
 void sdb_mainloop()
