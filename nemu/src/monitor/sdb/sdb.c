@@ -147,23 +147,28 @@ static int cmd_info(char *args)
 }
 static int cmd_x(char *args)
 {
-  if(args!=NULL && args[0]!='\0' && args[1]!='\0')
+  char *n_str = strtok(args," ");
+  bool is_success;
+  char* expr_str = strtok(NULL," ");
+  int n = 1;
+  if(expr_str == NULL){expr_str = n_str;}
+  else{n = atoi(n_str);}
+  if(n<=0)
   {
-    int n = atoi(args);
-    bool is_success;
-    word_t addr = expr(&args[1],&is_success);
-    if(n<=0)
+    printf("Invalid arguments\n");
+    return 0;
+  }
+  else
+  {
+    word_t addr = expr(expr_str,&is_success);
+    if(!is_success)
     {
-      printf("Invalid arguments\n");
-      return 0;
+      printf("Error arguments\n");
     }
-    else
+    for(int i = 0 ;i<n;i++)
     {
-      for(int i = 0 ;i<n;i++)
-      {
-        word_t val = vaddr_read(addr+i*4,4);
-        printf("0x%08x",val);
-      }
+      word_t val = vaddr_read(addr+i*4,4);
+      printf("0x%08x",val);
     }
   }
   return 0;
