@@ -163,12 +163,14 @@ static int cmd_x(char *args)
     word_t addr = expr(expr_str,&is_success);
     if(!is_success)
     {
-      printf("Error arguments\n");
+      printf("Invalid Express\n");
+      return 0;
     }
     for(int i = 0 ;i<n;i++)
     {
       word_t val = vaddr_read(addr+i*4,4);
-      printf("0x%08x",val);
+      printf("0x%08x\t",val);
+      if(!(i%4)){printf("\n");}
     }
   }
   return 0;
