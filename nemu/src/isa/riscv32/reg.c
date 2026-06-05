@@ -27,6 +27,7 @@ void isa_reg_display()
   {
     printf("%-3s = 0x%08x\n",reg_name(i),gpr(i));
   }
+  printf("PC  = 0x%08x\n",cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) { return 0; }
