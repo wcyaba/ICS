@@ -18,6 +18,7 @@
 #include <isa.h>
 #include <readline/history.h>
 #include <readline/readline.h>
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -60,6 +61,8 @@ static int cmd_help(char *args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct
 {
   const char *name;
@@ -71,6 +74,7 @@ static struct
     {"q", "Exit NEMU", cmd_q},
     {"si", "Execute N instructions. If N is not given, execute 1 ", cmd_si},
     {"info", "Display register status or watchpoint info ", cmd_info},
+    {"x","Scan memory:x N EXPR",cmd_x}
 
     /* TODO: Add more commands */
 
@@ -138,6 +142,29 @@ static int cmd_info(char *args)
   {
     printf("Invalid arguments\n");
     printf("Please input 'r' or 'w' to display register status or watchpoint info\n");
+  }
+  return 0;
+}
+static int cmd_x(char *args)
+{
+  if(args!=NULL && args[0]!='\0' && args[1]!='\0')
+  {
+    int n = atoi(args);
+    bool is_success;
+    word_t addr = expr(&args[1],&is_success);
+    if(n<=0)
+    {
+      printf("Invalid arguments\n");
+      return 0;
+    }
+    else
+    {
+      for(int i = 0 ;i<n;i++)
+      {
+        word_t val = vaddr_read(addr+i*4,4);
+        printf("0x%08x",val);
+      }
+    }
   }
   return 0;
 }
