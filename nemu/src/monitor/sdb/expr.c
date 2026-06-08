@@ -91,33 +91,33 @@ static bool make_token(char *e)
   int position = 0;
   int i;
   regmatch_t pmatch;
-
   nr_token = 0;
-
   while (e[position] != '\0')
   {
-    /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i++)
     {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
       {
+
+        Token *token = &tokens[nr_token++];
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i,
             rules[i].regex, position, substr_len, substr_len, substr_start);
-
+        token->type = rules[i].token_type;
         position += substr_len;
-
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
-
+        if(token->type==TK_NUM)
+        {
+          strncpy(token->str,substr_start,substr_len);
+          token->str[substr_len] = '\0';
+        }
+        else{token->str[0] = '\0';}
         switch (rules[i].token_type)
         {
-        default:
-          TODO();
+
+        // default:
+        //   TODO();
         }
 
         break;
@@ -143,7 +143,6 @@ word_t expr(char *e, bool *success)
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
 
   return 0;
 }
