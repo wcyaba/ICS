@@ -63,6 +63,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct
 {
   const char *name;
@@ -74,7 +76,8 @@ static struct
     {"q", "Exit NEMU", cmd_q},
     {"si", "Execute N instructions. If N is not given, execute 1 ", cmd_si},
     {"info", "Display register status or watchpoint info ", cmd_info},
-    {"x","Scan memory:x N EXPR",cmd_x}
+    {"x","Scan memory:x N EXPR",cmd_x},
+    {"p","Evaluate expression",cmd_p}
 
     /* TODO: Add more commands */
 
@@ -171,6 +174,28 @@ static int cmd_x(char *args)
       word_t val = vaddr_read(addr+i*4,4);
       printf("0x%08x\t",val);
       if(!(i%4)){printf("\n");}
+    }
+  }
+  return 0;
+}  
+static int cmd_p(char *args)
+{
+  bool success;
+  if(args==NULL||args[0]=='\0')
+  {
+    printf("Invalid Input\n");
+    return 0;
+  }
+  else
+  {
+    word_t result = expr(args,&success);
+    if(!success)
+    {
+      printf("Invalid expression\n");
+    }
+    else
+    {
+      printf("=%d \n",result);
     }
   }
   return 0;
