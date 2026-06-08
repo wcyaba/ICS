@@ -27,7 +27,8 @@ enum
   TK_EQ,
   TK_MINUS,
   TK_MUL,
-  TK_DIV
+  TK_DIV,
+  TK_NUM
 
   /* TODO: Add more token types */
 
@@ -48,7 +49,8 @@ static struct rule
     {"==", TK_EQ},     // equal
     {"-", TK_MINUS},   
     {"\\*", TK_MUL},
-    {"/", TK_DIV}
+    {"/", TK_DIV},
+    {"[0-9]+",TK_NUM}
 };
 
 #define NR_REGEX ARRLEN(rules)
