@@ -180,6 +180,7 @@ word_t expr(char *e, bool *success)
   word_t result = parse_expr();
   if(nr_token!=token_idx)
   {
+    printf("meiduishang\n");
     *success = false;
     return 0;
   }
