@@ -85,6 +85,7 @@ typedef struct token
 
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used)) = 0;
+static int token_idx __attribute__((used)) = 0;
 
 static bool make_token(char *e)
 {
@@ -119,21 +120,54 @@ static bool make_token(char *e)
         // default:
         //   TODO();
         }
-
         break;
       }
     }
-
     if (i == NR_REGEX)
     {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
   }
-
   return true;
 }
-
+static word_t parse_factor()
+{
+  if(tokens[token_idx].type == TK_NUM)
+  {
+    word_t val = atoi(tokens[token_idx++].str);
+    return val;
+  }
+  return 0;
+}
+static word_t parse_term()
+{
+  word_t val = parse_factor();
+  while(tokens[token_idx].type == TK_MUL || tokens[token_idx].type == TK_DIV)
+  {
+    word_t op = tokens[token_idx++].type;
+    word_t next = parse_factor();
+    if(op == TK_MUL){val *= next;}
+    else if(op == TK_DIV)
+    {
+      if(!next){printf("Math Error");return 0;}
+      val /= next;
+    }
+  }
+  return val;
+}
+static word_t parse_expr()
+{
+  word_t val = parse_term();
+  while(tokens[token_idx].type == TK_PLUS || tokens[token_idx].type == TK_MINUS)
+  {
+    word_t op = tokens[token_idx++].type;
+    word_t next = parse_term();
+    if(op == TK_PLUS){val += next;}
+    else if(op == TK_MINUS){val -= next;}
+  }
+  return val;
+}
 word_t expr(char *e, bool *success)
 {
   if (!make_token(e))
@@ -141,8 +175,11 @@ word_t expr(char *e, bool *success)
     *success = false;
     return 0;
   }
-
-  /* TODO: Insert codes to evaluate the expression. */
-
-  return 0;
+  word_t result = parse_expr();
+  if(nr_token!=token_idx)
+  {
+    *success = false;
+    return 0;
+  }
+  return result;
 }
