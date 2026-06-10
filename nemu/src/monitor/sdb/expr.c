@@ -170,6 +170,7 @@ static word_t parse_expr()
 }
 word_t expr(char *e, bool *success)
 {
+  nr_token = 0;
   token_idx = 0;
   if (!make_token(e))
   {
