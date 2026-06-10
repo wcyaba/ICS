@@ -138,6 +138,7 @@ static word_t parse_factor()
     word_t val = atoi(tokens[token_idx++].str);
     return val;
   }
+  token_idx++;
   return 0;
 }
 static word_t parse_term()
