@@ -108,15 +108,17 @@ static bool make_token(char *e)
             rules[i].regex, position, substr_len, substr_len, substr_start);
         token->type = rules[i].token_type;
         position += substr_len;
-        if(token->type==TK_NUM)
+        if(token->type!=TK_NOTYPE)
         {
-          strncpy(token->str,substr_start,substr_len);
-          token->str[substr_len] = '\0';
+          if(token->type==TK_NUM)
+          {
+            strncpy(token->str,substr_start,substr_len);
+            token->str[substr_len] = '\0';
+          }
+          else{token->str[0] = '\0';}
         }
-        else{token->str[0] = '\0';}
         switch (rules[i].token_type)
         {
-
         // default:
         //   TODO();
         }
