@@ -12,7 +12,6 @@
  *
  * See the Mulan PSL v2 for more details.
  ***************************************************************************************/
-
 #include <isa.h>
 
 /* We use the POSIX regex functions to process regular expressions.
