@@ -172,15 +172,20 @@ word_t expr(char *e, bool *success)
 {
   nr_token = 0;
   token_idx = 0;
+  printf("DEBUG expr: start, nr_token=%d, token_idx=%d\n", nr_token, token_idx);
   if (!make_token(e))
   {
     *success = false;
     return 0;
   }
+  printf("DEBUG expr: after make_token, nr_token=%d, token_idx=%d\n", nr_token, token_idx);
+  for (int i = 0; i < nr_token; i++) {
+      printf("  token[%d]: type=%d, str=%s\n", i, tokens[i].type, tokens[i].str);
+  }
   word_t result = parse_expr();
+  printf("DEBUG expr: after parse_expr, token_idx=%d, nr_token=%d\n", token_idx, nr_token);
   if(nr_token!=token_idx)
   {
-    printf("meiduishang\n");
     *success = false;
     return 0;
   }
