@@ -99,8 +99,8 @@ static bool make_token(char *e)
     {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
       {
-
-        Token *token = &tokens[nr_token++];
+        Token *token = 0;
+        if(rules[i].token_type!=TK_NOTYPE){token = &tokens[nr_token++];}
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
@@ -108,17 +108,15 @@ static bool make_token(char *e)
             rules[i].regex, position, substr_len, substr_len, substr_start);
         token->type = rules[i].token_type;
         position += substr_len;
-        if(token->type!=TK_NOTYPE)
+        if(token->type==TK_NUM)
         {
-          if(token->type==TK_NUM)
-          {
-            strncpy(token->str,substr_start,substr_len);
-            token->str[substr_len] = '\0';
-          }
-          else{token->str[0] = '\0';}
+          strncpy(token->str,substr_start,substr_len);
+          token->str[substr_len] = '\0';
         }
+        else{token->str[0] = '\0';}
         switch (rules[i].token_type)
         {
+
         // default:
         //   TODO();
         }
