@@ -172,6 +172,7 @@ word_t expr(char *e, bool *success)
 {
   nr_token = 0;
   token_idx = 0;
+  memset(tokens, 0, sizeof(tokens));
   printf("DEBUG expr: start, nr_token=%d, token_idx=%d\n", nr_token, token_idx);
   if (!make_token(e))
   {
