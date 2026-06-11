@@ -156,7 +156,7 @@ static word_t parse_factor()
 static word_t parse_term()
 {
   word_t val = parse_factor();
-  while(tokens[token_idx].type == TK_MUL || tokens[token_idx].type == TK_DIV)
+  while(!is_error && (tokens[token_idx].type == TK_MUL || tokens[token_idx].type == TK_DIV))
   {
     word_t op = tokens[token_idx++].type;
     word_t next = parse_factor();
@@ -172,7 +172,7 @@ static word_t parse_term()
 static word_t parse_expr()
 {
   word_t val = parse_term();
-  while(tokens[token_idx].type == TK_PLUS || tokens[token_idx].type == TK_MINUS)
+  while(!is_error && (tokens[token_idx].type == TK_PLUS || tokens[token_idx].type == TK_MINUS))
   {
     word_t op = tokens[token_idx++].type;
     word_t next = parse_term();
