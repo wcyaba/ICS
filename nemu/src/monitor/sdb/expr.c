@@ -59,7 +59,7 @@ static struct rule
 #define NR_REGEX ARRLEN(rules)
 static word_t parse_expr();
 static regex_t re[NR_REGEX] = {};
-
+static bool is_error = false;
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
@@ -145,7 +145,7 @@ static word_t parse_factor()
   {
     token_idx++;
     word_t val = parse_expr();
-    if(token_idx!=TK_RPAREN){printf("Syntax Error\n");return 0;}
+    if(token_idx!=TK_RPAREN){printf("Syntax Error\n");is_error = true;return 0;}
     token_idx++;
     return val;
   }
@@ -191,7 +191,7 @@ word_t expr(char *e, bool *success)
     return 0;
   }
   word_t result = parse_expr();
-  if(nr_token!=token_idx)
+  if(nr_token!=token_idx && !is_error)
   {
     *success = false;
     return 0;
