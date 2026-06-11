@@ -27,7 +27,9 @@ enum
   TK_MINUS,
   TK_MUL,
   TK_DIV,
-  TK_NUM
+  TK_NUM,
+  TK_LPAREN,
+  TK_RPAREN
 
   /* TODO: Add more token types */
 
@@ -49,11 +51,13 @@ static struct rule
     {"-", TK_MINUS},   
     {"\\*", TK_MUL},
     {"/", TK_DIV},
-    {"[0-9]+",TK_NUM}
+    {"[0-9]+",TK_NUM},
+    {"\\(",TK_LPAREN},
+    {"\\)",TK_RPAREN}
 };
 
 #define NR_REGEX ARRLEN(rules)
-
+static word_t parse_expr();
 static regex_t re[NR_REGEX] = {};
 
 /* Rules are used for many times.
@@ -135,6 +139,13 @@ static word_t parse_factor()
   if(tokens[token_idx].type == TK_NUM)
   {
     word_t val = atoi(tokens[token_idx++].str);
+    return val;
+  }
+  if(tokens[token_idx].type == TK_LPAREN)
+  {
+    token_idx++;
+    word_t val = parse_expr();
+    token_idx++;
     return val;
   }
   token_idx++;
