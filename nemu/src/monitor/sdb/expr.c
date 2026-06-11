@@ -145,7 +145,7 @@ static word_t parse_factor()
   {
     token_idx++;
     word_t val = parse_expr();
-    if(token_idx!=TK_RPAREN){printf("Syntax Error\n");is_error = true;return 0;}
+    if(tokens[token_idx].type!=TK_RPAREN){printf("Syntax Error\n");is_error = true;return 0;}
     token_idx++;
     return val;
   }
@@ -182,6 +182,7 @@ static word_t parse_expr()
 }
 word_t expr(char *e, bool *success)
 {
+  is_error = false;
   nr_token = 0;
   token_idx = 0;
   memset(tokens, 0, sizeof(tokens));
@@ -191,7 +192,7 @@ word_t expr(char *e, bool *success)
     return 0;
   }
   word_t result = parse_expr();
-  if(nr_token!=token_idx && !is_error)
+  if(nr_token!=token_idx && is_error)
   {
     *success = false;
     return 0;
