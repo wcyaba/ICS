@@ -163,7 +163,7 @@ static word_t parse_term()
     if(op == TK_MUL){val *= next;}
     else if(op == TK_DIV)
     {
-      if(!next){printf("Math Error");return 0;}
+      if(!next){printf("Math Error\n");is_error = true;return 0;}
       val /= next;
     }
   }
