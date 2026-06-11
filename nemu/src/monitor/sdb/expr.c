@@ -189,9 +189,6 @@ word_t expr(char *e, bool *success)
     *success = false;
     return 0;
   }
-  for (int i = 0; i < nr_token; i++) {
-      printf("  token[%d]: type=%d, str=%s\n", i, tokens[i].type, tokens[i].str);
-  }
   word_t result = parse_expr();
   if(nr_token!=token_idx)
   {
