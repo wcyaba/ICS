@@ -145,6 +145,7 @@ static word_t parse_factor()
   {
     token_idx++;
     word_t val = parse_expr();
+    if(token_idx!=TK_RPAREN){printf("Syntax Error\n");return 0;}
     token_idx++;
     return val;
   }
