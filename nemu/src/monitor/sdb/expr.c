@@ -50,6 +50,7 @@ static struct rule
     {"-", TK_MINUS},   
     {"\\*", TK_MUL},
     {"/", TK_DIV},
+    {"0x[0-9a-fA-F]+",TK_NUM},
     {"[0-9]+",TK_NUM},
     {"\\(",TK_LPAREN},
     {"\\)",TK_RPAREN}
@@ -137,7 +138,7 @@ static word_t parse_factor()
 {
   if(tokens[token_idx].type == TK_NUM)
   {
-    word_t val = atoi(tokens[token_idx++].str);
+    word_t val = (word_t)strtol(tokens[token_idx++].str,0,0);
     return val;
   }
   if(tokens[token_idx].type == TK_LPAREN)
