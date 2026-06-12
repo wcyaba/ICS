@@ -51,6 +51,7 @@ static struct rule
     {"\\*", TK_MUL},
     {"/", TK_DIV},
     {"0x[0-9a-fA-F]+",TK_NUM},
+    {"0b[0-1]+",TK_NUM},
     {"[0-9]+",TK_NUM},
     {"\\(",TK_LPAREN},
     {"\\)",TK_RPAREN}
