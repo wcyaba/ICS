@@ -18,7 +18,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-
+#define word_t u_int8_t
 enum
 {
   TK_NOTYPE = 256,
