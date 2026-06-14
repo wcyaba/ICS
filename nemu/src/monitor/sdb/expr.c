@@ -28,7 +28,8 @@ enum
   TK_DIV,
   TK_NUM,
   TK_LPAREN,
-  TK_RPAREN
+  TK_RPAREN,
+  TK_REG
 
   /* TODO: Add more token types */
 
@@ -52,6 +53,7 @@ static struct rule
     {"/", TK_DIV},
     {"0x[0-9a-fA-F]+",TK_NUM},
     {"0b[0-1]+",TK_NUM},
+    {"\\$[a-z0-9]+",TK_REG},
     {"[0-9]+",TK_NUM},
     {"\\(",TK_LPAREN},
     {"\\)",TK_RPAREN}
@@ -149,6 +151,15 @@ static word_t parse_factor()
     if(tokens[token_idx].type!=TK_RPAREN){printf("Syntax Error\n");is_error = true;return 0;}
     token_idx++;
     return val;
+  }
+  if(tokens[token_idx].type == TK_REG)
+  {
+    char* regname;
+    regname = tokens[token_idx].str;
+    bool success;
+    if(*regname=='$'){regname++;}
+    word_t val = isa_reg_str2val(regname,&success);
+    if(success){return val;}
   }
   printf("Syntax Error\n");
   is_error = true;
