@@ -113,7 +113,7 @@ static bool make_token(char *e)
           token->type = rules[i].token_type;
           Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i,
           rules[i].regex, position, substr_len, substr_len, substr_start);
-          if(token->type==TK_NUM)
+          if(token->type==TK_NUM || token->type==TK_REG)
           {
             strncpy(token->str,substr_start,substr_len);
             token->str[substr_len] = '\0';
