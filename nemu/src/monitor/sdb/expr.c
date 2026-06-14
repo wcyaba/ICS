@@ -155,7 +155,7 @@ static word_t parse_factor()
   if(tokens[token_idx].type == TK_REG)
   {
     char* regname;
-    regname = tokens[token_idx].str;
+    regname = tokens[token_idx++].str;
     bool success;
     if(*regname=='$'){regname++;}
     word_t val = isa_reg_str2val(regname,&success);
