@@ -156,8 +156,9 @@ static word_t parse_factor()
   {
     char* regname;
     regname = tokens[token_idx++].str;
+    printf("DEBUG 1: regname = %s\n", regname);  // 应该是 "$a1"
     bool success;
-    if(*regname=='$'){regname++;}
+    if(*regname=='$'){regname++;printf("DEBUG 2: regname = %s\n", regname);}
     word_t val = isa_reg_str2val(regname,&success);
     printf("DEBUG: regname=%s, success=%d, val=%u\n", regname, success, val);
     if(success){return val;}
