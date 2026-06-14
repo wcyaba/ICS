@@ -159,6 +159,7 @@ static word_t parse_factor()
     bool success;
     if(*regname=='$'){regname++;}
     word_t val = isa_reg_str2val(regname,&success);
+    printf("DEBUG: regname=%s, success=%d, val=%u\n", regname, success, val);
     if(success){return val;}
   }
   printf("Syntax Error\n");
