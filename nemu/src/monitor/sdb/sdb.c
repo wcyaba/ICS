@@ -175,6 +175,7 @@ static int cmd_x(char *args)
       printf("0x%08x\t",val);
       if(!(i%4)){printf("\n");}
     }
+    printf("\n");
   }
   return 0;
 }  
