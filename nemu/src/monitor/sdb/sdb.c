@@ -65,6 +65,7 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_watch(char *args);
 static struct
 {
   const char *name;
@@ -77,7 +78,8 @@ static struct
     {"si", "Execute N instructions. If N is not given, execute 1 ", cmd_si},
     {"info", "Display register status or watchpoint info ", cmd_info},
     {"x","Scan memory:x N EXPR",cmd_x},
-    {"p","Evaluate expression",cmd_p}
+    {"p","Evaluate expression",cmd_p},
+    {"watch","Set a watchpoint",cmd_watch}
 
     /* TODO: Add more commands */
 
@@ -178,7 +180,7 @@ static int cmd_x(char *args)
     printf("\n");
   }
   return 0;
-}  
+}
 static int cmd_p(char *args)
 {
   bool success;
@@ -201,6 +203,10 @@ static int cmd_p(char *args)
   }
   return 0;
 }
+static int cmd_watch(char *args)
+{
+  return 0;
+}
 void sdb_set_batch_mode() { is_batch_mode = true; }
 
 void sdb_mainloop()
@@ -221,7 +227,6 @@ void sdb_mainloop()
     {
       continue;
     }
-
     /* treat the remaining string as the arguments,
      * which may need further parsing
      */

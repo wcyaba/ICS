@@ -14,15 +14,14 @@
 ***************************************************************************************/
 
 #include "sdb.h"
-
 #define NR_WP 32
 
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
-
+  char expr[32];
+  word_t value;
   /* TODO: Add more members if necessary */
-
 } WP;
 
 static WP wp_pool[NR_WP] = {};
@@ -34,10 +33,32 @@ void init_wp_pool() {
     wp_pool[i].NO = i;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
-
   head = NULL;
   free_ = wp_pool;
 }
+void wp_add(char *args)
+{
+  if(!free_){printf("No free point\n");return;}
+  WP *wp;
+  wp = free_;
+  wp->next = NULL;
+  free_ = free_->next;
+  bool success;
+  word_t val = expr(args,&success);
+  if(!success)
+  {
+    printf("Invalid expression\n");
+    wp->next = free_;
+    free_ = wp;
+    return;
+  }
+  strncpy(wp->expr,args,31);
+  wp->expr[31] = '\0';
+  wp->value = val;
+  wp->next = head;
+  head = wp;
 
+  
+}
 /* TODO: Implement the functionality of watchpoint */
 
