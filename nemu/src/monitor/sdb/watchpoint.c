@@ -62,8 +62,6 @@ void wp_check()
 {
   bool success;
   WP *Temp = head;
-  if(!head){return;}
-  printf("wp_check called, head = %p\n", head);
   while(Temp)
   {
     word_t new_value = expr(Temp->expr,&success);
