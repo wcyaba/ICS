@@ -206,6 +206,11 @@ word_t expr(char *e, bool *success)
   nr_token = 0;
   token_idx = 0;
   memset(tokens, 0, sizeof(tokens));
+  if (!make_token(e))
+  {
+    *success = false;
+    return 0;
+  }
   for(int i = 0;i<nr_token;i++)
   {
     if(tokens[i].type == TK_MUL)
@@ -215,11 +220,7 @@ word_t expr(char *e, bool *success)
       else{tokens[i].type = TK_DEREF;}
     }
   }
-  if (!make_token(e))
-  {
-    *success = false;
-    return 0;
-  }
+
   word_t result = parse_expr();
   if(nr_token!=token_idx || is_error)
   {
