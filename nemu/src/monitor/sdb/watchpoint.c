@@ -57,8 +57,26 @@ void wp_add(char *args)
   wp->value = val;
   wp->next = head;
   head = wp;
-
-  
+}
+void wp_check()
+{
+  bool success;
+  WP *Temp = head;
+  while(Temp)
+  {
+    word_t new_value = expr(Temp->expr,&success);
+    if(!success){printf("Watch Point Error!\n");return;}
+    if(new_value != Temp->value)
+    {
+      printf("Watch Point %d: %s\n",Temp->NO,Temp->expr);
+      printf("Old value = %d\n",Temp->value);
+      Temp->value = new_value;
+      printf("New value = %d\n",Temp->value);
+      nemu_state.state = NEMU_STOP;
+      return;
+    }
+    Temp = Temp->next;
+  }
 }
 /* TODO: Implement the functionality of watchpoint */
 
