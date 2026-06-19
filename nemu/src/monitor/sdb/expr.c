@@ -211,6 +211,7 @@ word_t expr(char *e, bool *success)
     if(tokens[i].type == TK_MUL)
     {
       if(tokens[i-1].type == TK_NUM || tokens[i-1].type == TK_REG || tokens[i-1].type == TK_RPAREN){}
+      else if(i==0){tokens[i].type = TK_DEREF;}
       else{tokens[i].type = TK_DEREF;}
     }
   }
