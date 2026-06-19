@@ -13,6 +13,7 @@
  * See the Mulan PSL v2 for more details.
  ***************************************************************************************/
 #include <isa.h>
+#include <memory/vaddr.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -29,10 +30,9 @@ enum
   TK_NUM,
   TK_LPAREN,
   TK_RPAREN,
-  TK_REG
-
+  TK_REG,
+  TK_DEREF
   /* TODO: Add more token types */
-
 };
 
 static struct rule
@@ -161,6 +161,13 @@ static word_t parse_factor()
     word_t val = isa_reg_str2val(regname,&success);
     if(success){return val;}
   }
+  if(tokens[token_idx].type == TK_DEREF)
+  {
+    token_idx++;
+    word_t addr = parse_factor();
+    word_t val = vaddr_read(addr,4);
+    return val;
+  }
   printf("Syntax Error\n");
   is_error = true;
   return 0;
@@ -199,6 +206,14 @@ word_t expr(char *e, bool *success)
   nr_token = 0;
   token_idx = 0;
   memset(tokens, 0, sizeof(tokens));
+  for(int i = 0;i<nr_token;i++)
+  {
+    if(tokens[i].type == TK_MUL)
+    {
+      if(tokens[i-1].type == TK_NUM || tokens[i-1].type == TK_REG || tokens[i-1].type == TK_RPAREN){}
+      else{tokens[i].type = TK_DEREF;}
+    }
+  }
   if (!make_token(e))
   {
     *success = false;
