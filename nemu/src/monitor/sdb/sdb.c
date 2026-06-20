@@ -66,6 +66,8 @@ static int cmd_x(char *args);
 static int cmd_p(char *args);
 
 static int cmd_watch(char *args);
+
+static int cmd_delete(char *args);
 static struct
 {
   const char *name;
@@ -79,7 +81,8 @@ static struct
     {"info", "Display register status or watchpoint info ", cmd_info},
     {"x","Scan memory:x N EXPR",cmd_x},
     {"p","Evaluate expression",cmd_p},
-    {"watch","Set a watchpoint",cmd_watch}
+    {"watch","Set a watchpoint",cmd_watch},
+    {"delete","delete a watchpoint",cmd_delete}
 
     /* TODO: Add more commands */
 
@@ -202,6 +205,11 @@ static int cmd_watch(char *args)
 {
   if(args == NULL || args[0]=='\0'){printf("Invalid Expression\n");return 0;}
   wp_add(args);
+  return 0;
+}
+static int cmd_delete(char *args)
+{
+  wp_delete(args);
   return 0;
 }
 void sdb_set_batch_mode() { is_batch_mode = true; }

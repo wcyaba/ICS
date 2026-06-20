@@ -22,4 +22,5 @@ word_t expr(char *e, bool *success);
 void wp_add();
 void wp_check();
 void wp_display();
+void wp_delete();
 #endif

@@ -18,6 +18,7 @@
 
 typedef struct watchpoint {
   int NO;
+  int id;
   struct watchpoint *next;
   char expr[32];
   word_t value;
@@ -26,7 +27,7 @@ typedef struct watchpoint {
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
-
+static int idx_id = 0;
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
@@ -57,6 +58,8 @@ void wp_add(char *args)
   wp->value = val;
   wp->next = head;
   head = wp;
+  idx_id++;
+  wp->id = idx_id;
 }
 void wp_check()
 {
@@ -90,6 +93,26 @@ void wp_display()
   }
   return;
 }
+void wp_delete(char *args)
+{
+  WP *curr = head;
+  WP *prev = NULL;
+  int d_id = atoi(args);
+  while(curr)
+  {
+    if(curr->id == d_id)
+    {
+      if(!prev){head = curr->next;}
+      else{prev->next = curr->next;}
+      curr->next = free_;
+      free_ = curr;
+      return;
+    }
+    prev = curr;
+    curr = curr->next;
+  }
+  printf("ID Not Found\n");
+  return;
+}
 
 /* TODO: Implement the functionality of watchpoint */
-
