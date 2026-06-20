@@ -85,7 +85,7 @@ void wp_display()
   while(Temp)
   {
     printf("Watch Point %d: %s\n",Temp->NO,Temp->expr);
-    printf("Old value = %d\n",Temp->value);
+    printf("value = %d\n",Temp->value);
     Temp = Temp->next;
   }
   return;
