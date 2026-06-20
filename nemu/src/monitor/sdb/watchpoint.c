@@ -41,8 +41,8 @@ void wp_add(char *args)
   if(!free_){printf("No free point\n");return;}
   WP *wp;
   wp = free_;
-  wp->next = NULL;
   free_ = free_->next;
+  wp->next = free_;
   bool success;
   word_t val = expr(args,&success);
   if(!success)
