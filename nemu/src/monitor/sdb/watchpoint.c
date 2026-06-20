@@ -78,5 +78,18 @@ void wp_check()
     Temp = Temp->next;
   }
 }
+void wp_display()
+{
+  WP *Temp;
+  Temp = head;
+  while(Temp)
+  {
+    printf("Watch Point %d: %s\n",Temp->NO,Temp->expr);
+    printf("Old value = %d\n",Temp->value);
+    Temp = Temp->next;
+  }
+  return;
+}
+
 /* TODO: Implement the functionality of watchpoint */
 

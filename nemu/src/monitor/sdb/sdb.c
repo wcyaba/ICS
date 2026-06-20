@@ -134,14 +134,9 @@ static int cmd_info(char *args)
 {
   if(args != NULL && (args[0]=='r'||args[0]=='w'))
   {
-    if(args[0] == 'r')
-    {
-      isa_reg_display();
-    }
-    else
-    {
-      
-    }
+    if(args[0] == 'r'){isa_reg_display();}
+    else if(args[0]){wp_display();}
+    else{printf("Input Error\n");return 1;}
   }
   else
   {

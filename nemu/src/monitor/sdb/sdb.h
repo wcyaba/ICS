@@ -21,4 +21,5 @@
 word_t expr(char *e, bool *success);
 void wp_add();
 void wp_check();
+void wp_display();
 #endif
