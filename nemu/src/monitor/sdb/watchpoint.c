@@ -71,7 +71,7 @@ void wp_check()
     if(!success){printf("Watch Point Error!\n");return;}
     if(new_value != Temp->value)
     {
-      printf("Watch Point %d: %s\n",Temp->NO,Temp->expr);
+      printf("Watch Point %d: %s\n",Temp->id,Temp->expr);
       printf("Old value = %d\n",Temp->value);
       Temp->value = new_value;
       printf("New value = %d\n",Temp->value);
@@ -87,7 +87,7 @@ void wp_display()
   Temp = head;
   while(Temp)
   {
-    printf("Watch Point %d: %s\n",Temp->NO,Temp->expr);
+    printf("Watch Point %d: %s\n",Temp->id,Temp->expr);
     printf("value = %d\n",Temp->value);
     Temp = Temp->next;
   }
